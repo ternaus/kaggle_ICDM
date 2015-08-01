@@ -8,6 +8,7 @@ Merge test and cookies on some column. and use device_id, cookie_id of the corre
 
 import graphlab as gl
 import os
+import pandas as pd
 
 test = gl.SFrame(os.path.join('..', 'data', 'dev_test_basic.csv'))
 
@@ -18,9 +19,21 @@ cookies = gl.SFrame(os.path.join('..', 'data', 'cookie_all_basic.csv'))
 print 'cookies.shape'
 print cookies.shape
 
-result = test.join(cookies, on='anonymous_5', how='left')
+#Let's merge with anonymous_5
+
+df = cookies.groupby("anonymous_5", {'cookie_id': gl.aggregate.SELECT_ONE('cookie_id')})
+
+print cookies["anonymous_5"].shape
+print df.shape
+
+result = test.join(df, on='anonymous_5', how='left')
 
 print 'result.shape'
 print result.shape
 
-result.save(os.path.join('..', 'data', 'A5'))
+submission = pd.DataFrame()
+submission['device_id'] = result['device_id']
+submission['cookie_id'] = result['cookie_id']
+print submission.info()
+
+submission.to_csv('predictions/5.csv', index=False)
