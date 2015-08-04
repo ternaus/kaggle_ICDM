@@ -24,7 +24,7 @@ print cookies_new.shape
 
 
 
-ind = 1
+ind = 2
 
 if ind == 1:
   train = gl.SFrame('../data/dev_train_basic.csv')
@@ -76,6 +76,13 @@ elif ind == 2:
   print test_cookies.shape
   print test_cookies.column_names()
   print test_cookies.head()
+  test_cookies = test_cookies[(test_cookies['anonymous_c0'] == test_cookies['anonymous_c0.1'])
+                                & (test_cookies['anonymous_c1'] == test_cookies['anonymous_c1.1'])
+                                & (test_cookies['anonymous_c2'] == test_cookies['anonymous_c2.1'])
+                                & (test_cookies['anonymous_5'] == test_cookies['anonymous_5.1'])
+                                & (test_cookies['anonymous_6'] == test_cookies['anonymous_6.1'])
+                                & (test_cookies['anonymous_7'] == test_cookies['anonymous_7.1'])
+  ]
 
   print 'grouping test'
   grouped_test = test_cookies.groupby('device_id', {'cookie_id': gl.aggregate.SELECT_ONE('cookie_id')})
@@ -85,4 +92,4 @@ elif ind == 2:
   del submission['cookie_id']
   submission = submission.join(grouped_test, how='left')
   submission = submission.fillna('cookie_id', 'id_10')
-  submission.save('predictions/merge_frequent_ip.csv')
+  submission.save('predictions/merge_frequent_ip_012567.csv')
