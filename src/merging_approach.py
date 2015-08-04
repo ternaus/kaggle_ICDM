@@ -21,6 +21,7 @@ print cookies.shape
 
 #Let's merge with anonymous_5
 
+print 'aggregating'
 df = cookies.groupby("anonymous_5", {'cookie_id': gl.aggregate.SELECT_ONE('cookie_id')})
 
 print cookies["anonymous_5"].shape
