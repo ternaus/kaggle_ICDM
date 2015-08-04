@@ -37,7 +37,9 @@ print train_cookies.column_names()
 print train_cookies.head()
 
 print 'grouping train'
-grouped_train = train_cookies.groupby(['drawbridge_handle', 'device_id'], {'drawbridge_handle.1': gl.aggregate.SELECT_ONE('drawbridge_handle.1')}, {gl.aggregate.SELECT_ONE('cookie_id'): 'cookie_id'})
+grouped_train = train_cookies.groupby(['drawbridge_handle', 'device_id'],
+                                      {'drawbridge_handle.1': gl.aggregate.SELECT_ONE('drawbridge_handle.1')},
+                                      {'cookie_id': gl.aggregate.SELECT_ONE('cookie_id')})
 
 print grouped_train.shape
 
