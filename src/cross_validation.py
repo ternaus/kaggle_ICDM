@@ -24,7 +24,7 @@ print cookies_new.shape
 
 
 
-ind = 2
+ind = 1
 
 if ind == 1:
   train = gl.SFrame('../data/dev_train_basic.csv')
@@ -41,6 +41,14 @@ if ind == 1:
   print train_cookies.shape
   print train_cookies.column_names()
   print train_cookies.head()
+
+  train_cookies = train_cookies[(train_cookies['anonymous_c0'] == train_cookies['anonymous_c0.1'])
+                                & (train_cookies['anonymous_c1'] == train_cookies['anonymous_c1.1'])
+                                & (train_cookies['anonymous_c2'] == train_cookies['anonymous_c2.1'])
+                                & (train_cookies['anonymous_5'] == train_cookies['anonymous_c5.1'])
+                                & (train_cookies['anonymous_6'] == train_cookies['anonymous_c6.1'])
+                                & (train_cookies['anonymous_7'] == train_cookies['anonymous_c7.1'])
+  ]
 
   print 'grouping train'
   grouped_train = train_cookies.groupby(['drawbridge_handle', 'device_id'],
