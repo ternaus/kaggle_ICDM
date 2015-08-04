@@ -42,14 +42,15 @@ if ind == 1:
   print train_cookies.column_names()
   print train_cookies.head()
 
+  print 'subsetting cookies'
   train_cookies = train_cookies[(train_cookies['anonymous_c0'] == train_cookies['anonymous_c0.1'])
                                 & (train_cookies['anonymous_c1'] == train_cookies['anonymous_c1.1'])
                                 & (train_cookies['anonymous_c2'] == train_cookies['anonymous_c2.1'])
-                                & (train_cookies['anonymous_5'] == train_cookies['anonymous_c5.1'])
-                                & (train_cookies['anonymous_6'] == train_cookies['anonymous_c6.1'])
-                                & (train_cookies['anonymous_7'] == train_cookies['anonymous_c7.1'])
+                                & (train_cookies['anonymous_5'] == train_cookies['anonymous_5.1'])
+                                & (train_cookies['anonymous_6'] == train_cookies['anonymous_6.1'])
+                                & (train_cookies['anonymous_7'] == train_cookies['anonymous_7.1'])
   ]
-
+  print train_cookies.shape
   print 'grouping train'
   grouped_train = train_cookies.groupby(['drawbridge_handle', 'device_id'],
                                         {'drawbridge_handle.1': gl.aggregate.SELECT_ONE('drawbridge_handle.1')},
