@@ -9,61 +9,64 @@ New idea.
 [4] Use group by after this.
 '''
 import graphlab as gl
+#
+# cookie_ip = gl.SFrame('../data/id_all_ip.csv')
+# print
+# print 'ip_shape'
+# print cookie_ip.shape
+#
+# cookies = gl.SFrame('../data/cookie_all_basic.csv')
+#
+# print
+# print 'cookies_shape'
+# print cookies.shape
+#
+# train = gl.SFrame('../data/dev_train_basic.csv')
+#
+# print
+# print 'train_shape'
+# print train.shape
+#
+# test = gl.SFrame('../data/dev_test_basic.csv')
+#
+# print
+# print 'test_shape'
+# print test.shape
+#
+#
+# print 'merging cookie and ip'
+#
+# cookie_with_ip = cookies.join(cookie_ip, on={'cookie_id': 'device_or_cookie_id'}, how='left')
+#
+# print 'saving cookie_with_ip'
+# cookie_with_ip.save('../data/cookie_with_ip')
+#
+# print 'merging train and ip'
+# train_ip = train.join(cookie_ip, on={'device_id': 'device_or_cookie_id'}, how='left')
+# print 'saving train_ip to file'
+# train_ip.save('../data/train_with_ip')
+#
+# print 'merging test and ip'
+# test_ip = test.join(cookie_ip, on={'device_id': 'device_or_cookie_id'}, how='left')
+# print 'saving test_with_ip to file'
+# test_ip.save('../data/test_with_ip')
+#
+# print 'merging cookies and train on ip'
+# cookie_train = train_ip.join(cookie_with_ip, on='ip')
+#
+# print 'saving cookie_train to file'
+# cookie_train.save('../data/cookie_train')
+#
+# print 'merging cookies and test on ip'
+# cookie_test = test_ip.join(cookie_with_ip, on='ip')
+#
+# print 'saving cookie_train to file'
+# cookie_test.save('../data/cookie_test')
 
-cookie_ip = gl.SFrame('../data/id_all_ip.csv')
-print
-print 'ip_shape'
-print cookie_ip.shape
+print 'readaving cookie_train from file'
+cookie_train = gl.SFrame('../data/cookie_train')
 
-cookies = gl.SFrame('../data/cookie_all_basic.csv')
-
-print
-print 'cookies_shape'
-print cookies.shape
-
-train = gl.SFrame('../data/dev_train_basic.csv')
-
-print
-print 'train_shape'
-print train.shape
-
-test = gl.SFrame('../data/dev_test_basic.csv')
-
-print
-print 'test_shape'
-print test.shape
-
-
-print 'merging cookie and ip'
-
-cookie_with_ip = cookies.join(cookie_ip, on={'cookie_id': 'device_or_cookie_id'}, how='left')
-
-print 'saving cookie_with_ip'
-cookie_with_ip.save('../data/cookie_with_ip')
-
-print 'merging train and ip'
-train_ip = train.join(cookie_ip, on={'device_id': 'device_or_cookie_id'}, how='left')
-print 'saving train_ip to file'
-train_ip.save('../data/train_with_ip')
-
-print 'merging test and ip'
-test_ip = test.join(cookie_ip, on={'device_id': 'device_or_cookie_id'}, how='left')
-print 'saving test_with_ip to file'
-test_ip.save('../data/test_with_ip')
-
-print 'merging cookies and train on ip'
-cookie_train = train_ip.join(cookie_with_ip, on='ip')
-
-print 'saving cookie_train to file'
-cookie_train.save('../data/cookie_train')
-
-print 'merging cookies and test on ip'
-cookie_test = test_ip.join(cookie_with_ip, on='ip')
-
-print 'saving cookie_train to file'
-cookie_test.save('../data/cookie_test')
-
-
+print cookie_train.column_names()
 
 # #For each device_or_cookie_id we find most frequent ip
 #
