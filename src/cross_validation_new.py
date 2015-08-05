@@ -60,18 +60,18 @@ import graphlab as gl
 # print 'merging cookies and test on ip'
 # cookie_test = test_ip.join(cookie_with_ip, on='ip')
 #
-# print 'saving cookie_train to file'
-# cookie_test.save('../data/cookie_test')
+print 'reading cookie_test from file'
+cookie_test = gl.SFrame('../data/cookie_test')
 
-print 'reading cookie_train from file'
-cookie_train = gl.SFrame('../data/cookie_train')
-
-print cookie_train.column_names()
-print cookie_train.shape
+# print 'reading cookie_train from file'
+# cookie_train = gl.SFrame('../data/cookie_train')
+#
+# print cookie_train.column_names()
+# print cookie_train.shape
 
 # temp = cookie_train.groupby(['drawbridge_handle', 'device_id', 'cookie_id', 'drawbridge_handle.1'], {'ip_freq_count': gl.aggregate.MAX('ip_freq_count')})
 
-temp = cookie_train.groupby(['drawbridge_handle', 'device_id', 'cookie_id', 'drawbridge_handle.1'], {'ip_count': gl.aggregate.COUNT('ip')})
+temp = cookie_test.groupby(['device_id', 'cookie_id'], {'ip_count': gl.aggregate.COUNT('ip')})
 
 print temp.shape
 
