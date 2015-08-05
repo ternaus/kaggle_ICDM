@@ -73,7 +73,10 @@ cookie_test = gl.SFrame('../data/cookie_test')
 
 temp = cookie_test.groupby(['device_id', 'cookie_id'], {'ip_count': gl.aggregate.COUNT('ip')})
 
+temp_new = temp.groupby(['device_id', 'cookie_id'], {'max_ip': gl.aggregate.MAX('ip_count')})
+
 print temp.shape
+print temp_new.shape
 
 # print sum(temp['drawbridge_handle'] == temp['drawbridge_handle.1'])
 
