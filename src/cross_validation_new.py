@@ -69,7 +69,7 @@ cookie_train = gl.SFrame('../data/cookie_train')
 print cookie_train.column_names()
 print cookie_train.shape
 
-temp = cookie_train.groupby(['drawbridge_handle', 'drawbridge_handle.1'], {'ip_freq_count': gl.aggregate.MAX('ip_freq_count')})
+temp = cookie_train.groupby(['drawbridge_handle', 'device_id', 'cookie_id', 'drawbridge_handle.1'], {'ip_freq_count': gl.aggregate.MAX('ip_freq_count')})
 
 print temp.shape
 
