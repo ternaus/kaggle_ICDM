@@ -63,10 +63,12 @@ import graphlab as gl
 # print 'saving cookie_train to file'
 # cookie_test.save('../data/cookie_test')
 
-print 'readaving cookie_train from file'
+print 'reading cookie_train from file'
 cookie_train = gl.SFrame('../data/cookie_train')
 
 print cookie_train.column_names()
+print cookie_train.shape
+print sum(cookie_train['drawbridge_handle'] == cookie_train['drawbridge_handle.1'])
 
 # #For each device_or_cookie_id we find most frequent ip
 #
