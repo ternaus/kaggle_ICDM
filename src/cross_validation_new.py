@@ -68,7 +68,12 @@ cookie_train = gl.SFrame('../data/cookie_train')
 
 print cookie_train.column_names()
 print cookie_train.shape
-print sum(cookie_train['drawbridge_handle'] == cookie_train['drawbridge_handle.1'])
+
+temp = cookie_train.groupby(['drawbridge_handle', 'drawbridge_handle.1'], {'ip_freq_count': gl.aggregate.MAX('ip_freq_count')})
+
+print temp.shape
+
+print sum(temp['drawbridge_handle'] == temp['drawbridge_handle.1'])
 
 # #For each device_or_cookie_id we find most frequent ip
 #
