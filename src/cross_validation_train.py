@@ -30,6 +30,9 @@ cookie_train = train_ip.join(cookie_ip, on=['ip'])
 #count how many drawbridge_handle match
 temp = cookie_train.groupby('device_id', {'drawbridge_hangle': gl.aggregate.SELECT_ONE('drawbridge_handle'),
                                           'drawbridge_hangle.1': gl.aggregate.SELECT_ONE('drawbridge_handle.1'),
+
                                           'cookie_id': gl.aggregate.SELECT_ONE('cookie_id')})
+print temp.column_names()
 print temp.shape
+
 print temp[temp['drawbridge_handle'] == temp['drawbridge_handle.1']].shape
