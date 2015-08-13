@@ -29,7 +29,7 @@ print 'merge cookie with ip'
 cookie_ip = cookie.join(ip, on={'cookie_id': 'device_or_cookie_id'}, how='left')
 
 print 'merge cookie and train on ip'
-cookie_train = train_ip.join(cookie_ip, on=['ip'])
+cookie_train = train_ip.join(cookie_ip, on='ip')
 
 
 ind = 2
@@ -47,9 +47,12 @@ elif ind == 2:#pick device_id, cookie_id pairs when they have maximum count of c
   print 'grouping train'
   temp = cookie_train.groupby(['device_id', 'cookie_id'],
                               {'count_ip': gl.aggregate.COUNT('ip')})
-  temp_new = temp.groupby('device_id', {'max_ip': gl.aggregate.MAX('count_ip'), 'cookie_id': gl.aggregate.SELECT_ONE('cookie_id')})
+
+  print 'finding cookie_id with maximum match'
+  temp_new = temp.groupby('device_id', {'cookie_id': gl.aggregate.ARGMAX('count_ip', 'cookie_id')})
 
   #Now I need to merge these device_id, cookie_id pairs with initial train/cookie to be able to estimate number of matches.
+  print 'joining with train and cookie'
   result = temp_new.join(train, on='device_id').join(cookie, on='cookie_id')
   print result.shape
   print result[result['drawbridge_handle'] == result['drawbridge_handle.1']].shape
