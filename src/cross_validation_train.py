@@ -3,7 +3,9 @@ from __future__ import division
 __author__ = 'Vladimir Iglovikov'
 
 '''
-I need to figure out how to do cross_validation
+I need to figure out how to do cross_validation.
+
+Main idea so far is to predict device - cookie, pair, merge it with train/cookie and see how many handles matched.
 '''
 
 import graphlab as gl
@@ -27,24 +29,28 @@ print 'merge cookie with ip'
 cookie_ip = cookie.join(ip, on={'cookie_id': 'device_or_cookie_id'}, how='left')
 
 print 'merge cookie and train on ip'
-
 cookie_train = train_ip.join(cookie_ip, on=['ip'])
+
 
 ind = 2
 
 if ind == 1: #pick random device_id, cookie_id pairs
   print 'grouping train'
-  temp = cookie_train.groupby('device_id', {'drawbridge_hangle': gl.aggregate.SELECT_ONE('drawbridge_handle'),
-                                            'drawbridge_hangle.1': gl.aggregate.SELECT_ONE('drawbridge_handle.1'),
+  temp = cookie_train.groupby('device_id', {'drawbridge_handle': gl.aggregate.SELECT_ONE('drawbridge_handle'),
+                                            'drawbridge_handle.1': gl.aggregate.SELECT_ONE('drawbridge_handle.1'),
                                             'cookie_id': gl.aggregate.SELECT_ONE('cookie_id')})
   print temp.column_names()
   print temp.shape
   print 'count how many drawbridge_handle match'
-  print temp[temp['drawbridge_hangle'] == temp['drawbridge_hangle.1']].shape
+  print temp[temp['drawbridge_handle'] == temp['drawbridge_handle.1']].shape
 elif ind == 2:#pick device_id, cookie_id pairs when they have maximum count of common IP
   print 'grouping train'
-  temp = cookie_train.groupby(['device_id', 'drawbridge_hangle', 'drawbridge_hangle.1', 'cookie_id'],
+  temp = cookie_train.groupby(['device_id', 'cookie_id'],
                               {'count_ip': gl.aggregate.COUNT('ip')})
-  temp_new = temp.groupby(['device_id', 'drawbridge_hangle'], {'max_ip': gl.aggregate.ARGMAX('count_ip', 'drawbridge_hangle.1', 'cookie_id')})
-  print temp_new.head()
+  temp_new = temp.groupby('device_id', {'max_ip': gl.aggregate.MAX('count_ip'), 'cookie_id': gl.aggregate.SELECT_ONE('cookie_id')})
+
+  #Now I need to merge these device_id, cookie_id pairs with initial train/cookie to be able to estimate number of matches.
+  result = temp_new.join(train, on='device_id').join(cookie, on='cookie_id')
+  print result.shape
+  print result[result['drawbridge_handle'] == result['drawbridge_handle.1']].shape
 
