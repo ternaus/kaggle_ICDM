@@ -51,8 +51,13 @@ ground_truth = gl.SFrame('../data/train_cross.csv')
 print 'read train_ip and cookie_ip'
 # train_cookie = train_ip.join(cookie_ip, on='ip')
 train_cookie = gl.SFrame('../data/cookie_train')
-
+print 'train_cookie shape'
+print train_cookie.shape
 train_cookie = train_cookie[train_cookie['drawbridge_handle.1'] != '-1']
+print train_cookie.shape
+train_cookie = train_cookie[train_cookie['drawbridge_handle.1'] != -1]
+print train_cookie.shape
+
 # print 'adding space for each cookie_id'
 # train_cookie['cookie_id'] = train_cookie['cookie_id'].apply(lambda x: x + ' ')
 
