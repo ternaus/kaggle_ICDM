@@ -66,6 +66,9 @@ def f_score(y_true, prediction):
   return 1.25 * p * r / (0.25 * p + r)
 
 
+print 'f_score'
+print  f_score(result['cookie_id.1'][0], result['cookie_id.1'][0].strip().split())
+
 def helper(x):
   return f_score(x['cookie_id.1'], x['cookie_id.1'].strip().split())
 
