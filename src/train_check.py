@@ -13,14 +13,11 @@ def f_score(y_true, prediction):
   y_true = set(y_true)
   prediction = set(prediction)
   tp = len(y_true.intersection(prediction))
-  print tp
   if tp == 0:
     return 0
 
   fp = len(prediction.difference(y_true))
   fn = len(y_true.difference(prediction))
-  print fp
-  print fn
   p = tp / (tp + fp)
   r = tp / (tp + fn)
 
@@ -64,16 +61,16 @@ result = train_cookie.groupby('device_id', {'cookie_id': gl.aggregate.CONCAT('co
 print result.shape
 print result.head()
 
-print 'converting back to graphlab and merging with result'
+print 'merging guess with result'
 result = result.join(ground_truth, on='device_id')
 
 print result.column_names()
 print result.head()
-
-print 'f_score'
-print result['cookie_id'][0]
-print result['cookie_id.1'][0].strip().split()
-print f_score(result['cookie_id.1'][0].strip().split(), result['cookie_id'][0])
+#
+# print 'f_score'
+# print result['cookie_id'][0]
+# print result['cookie_id.1'][0].strip().split()
+# print f_score(result['cookie_id.1'][0].strip().split(), result['cookie_id'][0])
 
 
 def helper(x):
