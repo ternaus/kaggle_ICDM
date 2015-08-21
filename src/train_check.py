@@ -55,6 +55,9 @@ def f_score(y_true, prediction):
   y_true = set(y_true)
   prediction = set(prediction)
   tp = len(y_true.intersection(prediction))
+  if tp == 0:
+    return 0
+
   fp = len(prediction.difference(y_true))
   fn = len(y_true.difference(prediction))
   p = tp / (tp + fp)
@@ -66,7 +69,7 @@ def f_score(y_true, prediction):
 def helper(x):
   return f_score(x['cookie_id.1'], x['cookie_id.1'].strip().split())
 
-result['f1'] = result.apply(helper)
+result['f0.5'] = result.apply(helper)
 
-score = result['f1'].mean()
+score = result['f0.5'].mean()
 print score
