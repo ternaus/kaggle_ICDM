@@ -29,6 +29,7 @@ print train_cookie['cookie_id'].head()
 
 result = train_cookie.groupby('device_id')['cookie_id'].sum()
 
+print result.head()
 # result = train_cookie.groupby('device_id', {'cookie_id': gl.aggregate.SUM('cookie_id')})
 result['device_id'] = result['device_id'].apply(lambda x: x.strip(), 1)
 
