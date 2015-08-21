@@ -22,7 +22,8 @@ print train_cookie.column_names()
 
 #aggregate by device_id
 
-train_cookie['cookie_id'] = train_cookie['cookie_id'].apply(lambda x: x + ' ').to_dataframe()
+train_cookie['cookie_id'] = train_cookie['cookie_id'].apply(lambda x: x + ' ')
+train_cookie = train_cookie.to_dataframe()
 
 print train_cookie['cookie_id'].head()
 
