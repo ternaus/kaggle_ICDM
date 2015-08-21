@@ -19,3 +19,15 @@ train_cookie = train.join(cookie, on='drawbridge_handle')
 
 print train_cookie.shape
 print train_cookie.column_names()
+
+#aggregate by device_id
+
+train_cookie['cookie_id'] = train_cookie['cookie_id'].apply(lambda x: x + ' ')
+
+result = train_cookie.groupby('device_id', {'cookie_id': gl.aggregate.SUM('cookie_id')})
+result['device_id'] = result['device_id'].apply(lambda x: x.strip())
+
+print result.shape
+
+#save result to file
+result.save('../data/train_cross.csv')
