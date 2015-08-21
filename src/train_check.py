@@ -70,8 +70,6 @@ result = result.join(ground_truth, on='device_id')
 print result.column_names()
 print result.head()
 
-
-
 print 'f_score'
 print result['cookie_id'][0]
 print result['cookie_id.1'][0].strip().split()
@@ -79,7 +77,7 @@ print f_score(result['cookie_id.1'][0].strip().split(), result['cookie_id'][0])
 
 
 def helper(x):
-  return f_score(x['cookie_id.1'], x['cookie_id'].strip().split())
+  return f_score(x['cookie_id.1'].strip().split(), x['cookie_id'])
 
 result['f0.5'] = result.apply(helper)
 
