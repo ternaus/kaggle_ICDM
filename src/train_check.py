@@ -9,6 +9,25 @@ Basic script in which I will check ideas using train set
 Let's check idea about merging on IP and selecting one randomly
 '''
 
+def f_score(y_true, prediction):
+  y_true = set(y_true)
+  prediction = set(prediction)
+  tp = len(y_true.intersection(prediction))
+  print tp
+  if tp == 0:
+    return 0
+
+  fp = len(prediction.difference(y_true))
+  fn = len(y_true.difference(prediction))
+  print fp
+  print fn
+  p = tp / (tp + fp)
+  r = tp / (tp + fn)
+
+  return 1.25 * p * r / (0.25 * p + r)
+
+print f_score(['a1', 'a3'], ['a2', 'a1'])
+
 import graphlab as gl
 import pandas as pd
 
@@ -51,28 +70,18 @@ result = result.join(ground_truth, on='device_id')
 print result.column_names()
 print result.head()
 
-def f_score(y_true, prediction):
-  y_true = set(y_true)
-  prediction = set(prediction)
-  tp = len(y_true.intersection(prediction))
-  if tp == 0:
-    return 0
-
-  fp = len(prediction.difference(y_true))
-  fn = len(y_true.difference(prediction))
-  p = tp / (tp + fp)
-  r = tp / (tp + fn)
-
-  return 1.25 * p * r / (0.25 * p + r)
 
 
 print 'f_score'
-print  f_score(result['cookie_id.1'][0], result['cookie_id.1'][0].strip().split())
+print result['cookie_id.1'][0]
+print result['cookie_id.1'][0].strip().split()
+print f_score(result['cookie_id.1'][0], result['cookie_id.1'][0].strip().split())
 
-def helper(x):
-  return f_score(x['cookie_id.1'], x['cookie_id.1'].strip().split())
-
-result['f0.5'] = result.apply(helper)
-
-score = result['f0.5'].mean()
-print score
+#
+# def helper(x):
+#   return f_score(x['cookie_id.1'], x['cookie_id.1'].strip().split())
+#
+# result['f0.5'] = result.apply(helper)
+#
+# score = result['f0.5'].mean()
+# print score
