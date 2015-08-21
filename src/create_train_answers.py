@@ -7,6 +7,7 @@ This script will prepare device_id => list of cookie_id from train set
 '''
 
 import graphlab as gl
+import pandas as pd
 
 train = gl.SFrame('../data/dev_train_basic.csv')
 print train.shape
@@ -29,6 +30,9 @@ print train_cookie['cookie_id'].head()
 
 result = train_cookie.groupby('device_id')['cookie_id'].sum()
 
+result = pd.DataFrame(result)
+
+result.reset_index(inplace=True)
 print result.head()
 # result = train_cookie.groupby('device_id', {'cookie_id': gl.aggregate.SUM('cookie_id')})
 result['device_id'] = result['device_id'].apply(lambda x: x.strip(), 1)
