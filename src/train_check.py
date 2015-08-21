@@ -73,7 +73,7 @@ print result.head()
 
 
 print 'f_score'
-print result['cookie_id.1'][0]
+print result['cookie_id'][0]
 print result['cookie_id.1'][0].strip().split()
 print f_score(result['cookie_id.1'][0], result['cookie_id.1'][0].strip().split())
 
