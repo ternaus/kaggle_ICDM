@@ -18,4 +18,4 @@ print cookie.shape
 train_cookie = train.join(cookie, on='drawbridge_handle')
 
 print train_cookie.shape
-print train.column_names()
+print train_cookie.column_names()
