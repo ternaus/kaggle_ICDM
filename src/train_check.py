@@ -11,7 +11,6 @@ Let's check idea about merging on IP and selecting one randomly
 
 import graphlab as gl
 import pandas as pd
-from sklearn.metrics import f1_score
 
 # print 'reading train'
 # train = gl.SFrame('../data/dev_train_basic.csv')
@@ -38,10 +37,13 @@ print 'read train_ip and cookie_ip'
 train_cookie = gl.SFrame('../data/cookie_train')
 
 # print 'adding space for each cookie_id'
-train_cookie['cookie_id'] = train_cookie['cookie_id'].apply(lambda x: x + ' ')
+# train_cookie['cookie_id'] = train_cookie['cookie_id'].apply(lambda x: x + ' ')
 
-print 'unstucking'
+print 'aggregating'
 result = train_cookie.groupby('device_id', {'cookie_id': gl.aggregate.CONCAT('cookie_id')})
+
+print result.shape
+print result.head()
 
 print 'converting back to graphlab and merging with result'
 result = result.join(ground_truth, on='device_id')
@@ -49,9 +51,20 @@ result = result.join(ground_truth, on='device_id')
 print result.column_names()
 print result.head()
 
+def f_score(y_true, prediction):
+  y_true = set(y_true)
+  prediction = set(prediction)
+  tp = len(y_true.intersection(prediction))
+  fp = len(prediction.difference(y_true))
+  fn = len(y_true.difference(prediction))
+  p = tp / (tp + fp)
+  r = tp / (tp + fn)
+
+  return 1.25 * p * r / (0.25 * p + r)
+
 
 def helper(x):
-  return f1_score(x['cookie_id.1'].strip().split(), x['cookie_id.1'].strip().split())
+  return f_score(x['cookie_id.1'], x['cookie_id.1'].strip().split())
 
 result['f1'] = result.apply(helper)
 
