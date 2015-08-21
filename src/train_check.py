@@ -75,13 +75,13 @@ print result.head()
 print 'f_score'
 print result['cookie_id'][0]
 print result['cookie_id.1'][0].strip().split()
-print f_score(result['cookie_id.1'][0], result['cookie_id.1'][0].strip().split())
+print f_score(result['cookie_id.1'][0].strip().split(), result['cookie_id'][0])
 
-#
-# def helper(x):
-#   return f_score(x['cookie_id.1'], x['cookie_id.1'].strip().split())
-#
-# result['f0.5'] = result.apply(helper)
-#
-# score = result['f0.5'].mean()
-# print score
+
+def helper(x):
+  return f_score(x['cookie_id.1'], x['cookie_id'].strip().split())
+
+result['f0.5'] = result.apply(helper)
+
+score = result['f0.5'].mean()
+print score
