@@ -32,7 +32,8 @@ ground_truth = gl.SFrame('../data/train_cross.csv')
 # cookie_ip = cookie.join(ip, on={'cookie_id': 'device_or_cookie_id'})
 # cookie_ip = gl.SFrame('../data/cookie_with_ip')
 
-print 'merge train_ip and cookie_ip'
+# print 'merge train_ip and cookie_ip'
+print 'read train_ip and cookie_ip'
 # train_cookie = train_ip.join(cookie_ip, on='ip')
 train_cookie = gl.SFrame('../data/cookie_train')
 
@@ -40,7 +41,7 @@ train_cookie = gl.SFrame('../data/cookie_train')
 train_cookie['cookie_id'] = train_cookie['cookie_id'].apply(lambda x: x + ' ')
 
 print 'unstucking'
-result = train_cookie.groupby({'cookie_id': gl.aggregate.CONCAT('cookie_id')})
+result = train_cookie.groupby('device_id', {'cookie_id': gl.aggregate.CONCAT('cookie_id')})
 
 print 'converting back to graphlab and merging with result'
 result = result.join(ground_truth, on='device_id')
