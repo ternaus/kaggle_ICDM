@@ -59,10 +59,10 @@ print 'groupby, device_id, cookie_id, sum(ip_freq_count)'
 train_cookie = train_cookie.groupby(['device_id', 'cookie_id'], {'ip_count': gl.aggregate.SUM('ip_freq_count')})
 
 # print 'groupby, device_id, ip_freq_count, argmax ip_count, cookie_id'
-# train_cookie = train_cookie.groupby(['device_id', 'ip_freq_count'], {'cookie_id': gl.aggregate.ARGMAX('ip_count', 'cookie_id')})
+result = train_cookie.groupby('device_id', {'cookie_id': gl.aggregate.ARGMAX('ip_count', 'cookie_id')})
 
-print 'groupby device_id, concat cookie_id'
-result = train_cookie.groupby('device_id', {'cookie_id': gl.aggregate.CONCAT('cookie_id')})
+# print 'groupby device_id, concat cookie_id'
+# result = train_cookie.groupby('device_id', {'cookie_id': gl.aggregate.CONCAT('cookie_id')})
 
 
 print result.shape
