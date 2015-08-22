@@ -23,8 +23,6 @@ def f_score(y_true, prediction):
 
   return 1.25 * p * r / (0.25 * p + r)
 
-print f_score(['a1', 'a3'], ['a2', 'a1'])
-
 import graphlab as gl
 import pandas as pd
 
@@ -57,7 +55,7 @@ train_cookie = gl.SFrame('../data/cookie_train')
 
 print 'aggregating'
 
-train_cookie = train_cookie.groupby(['device_id', 'cookie_id'], {'ip_count': gl.aggregate.SUM('ip_freq.count')})
+train_cookie = train_cookie.groupby(['device_id', 'cookie_id'], {'ip_count': gl.aggregate.SUM('ip_freq_count')})
 
 result = train_cookie.groupby('device_id', {'cookie_id': gl.aggregate.CONCAT('cookie_id')})
 
