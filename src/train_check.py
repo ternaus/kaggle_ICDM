@@ -55,7 +55,8 @@ train_cookie = gl.SFrame('../data/cookie_train')
 
 print 'aggregating'
 
-train_cookie = train_cookie.groupby(['device_id', 'cookie_id'], {'ip_count': gl.aggregate.SUM('ip_freq_count')})
+train_cookie = train_cookie.groupby(['device_id', 'cookie_id', 'ip_freq_count'], {'ip_count': gl.aggregate.SUM('ip_freq_count.1')})
+train_cookie = train_cookie.groupby(['device_id', 'ip_freq_count'], {'cookie_id': gl.aggregate.ARGMAX('ip_count', 'cookie_id')})
 
 result = train_cookie.groupby('device_id', {'cookie_id': gl.aggregate.CONCAT('cookie_id')})
 
