@@ -11,9 +11,6 @@ print 'remove from cookie rows for which draw_bridge_handle = -1'
 print cookie.shape
 cookie = cookie[cookie['drawbridge_handle'] != '-1']
 print cookie.shape
-test = cookie[cookie['drawbridge_handle'] != -1]
-print cookie.shape
-
 
 print 'Read ip'
 ip = gl.SFrame('../data/id_all_ip.csv')
@@ -35,9 +32,9 @@ category = gl.SFrame('../data/property_category_corrected.csv')
 print category.shape
 
 print 'split ip into device and cookie'
-ip_device = ip[ip['device_or_cookie_id'] == 0]
+ip_device = ip[ip['device_or_cookie_indicator'] == 0]
 print 'ip_device.shape = ', ip_device.shape
-ip_cookie = ip[ip['device_or_cookie_id'] == 1]
+ip_cookie = ip[ip['device_or_cookie_indicator'] == 1]
 print 'ip_cookie.shape = ', ip_cookie.shape
 
 
