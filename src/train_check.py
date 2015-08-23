@@ -86,4 +86,5 @@ def helper(x):
 result['f0.5'] = result.apply(helper)
 
 score = result['f0.5'].mean()
+print result['f0.5'].sum()
 print score
