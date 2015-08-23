@@ -9,9 +9,9 @@ cookie = gl.SFrame('../data/cookie_all_basic.csv')
 
 print 'remove from cookie rows for which draw_bridge_handle = -1'
 print cookie.shape
-cookie = cookie[cookie['drawbridge_handle.1'] != '-1']
+cookie = cookie[cookie['drawbridge_handle'] != '-1']
 print cookie.shape
-test = cookie[cookie['drawbridge_handle.1'] != -1]
+test = cookie[cookie['drawbridge_handle'] != -1]
 print cookie.shape
 
 
