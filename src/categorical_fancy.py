@@ -6,6 +6,15 @@ import graphlab as gl
 print 'Read cookie_id'
 cookie = gl.SFrame('../data/cookie_all_basic.csv')
 
+
+print 'remove from cookie rows for which draw_bridge_handle = -1'
+print cookie.shape
+cookie = cookie[cookie['drawbridge_handle.1'] != '-1']
+print cookie.shape
+test = cookie[cookie['drawbridge_handle.1'] != -1]
+print cookie.shape
+
+
 print 'Read ip'
 ip = gl.SFrame('../data/id_all_ip.csv')
 
@@ -31,12 +40,6 @@ print 'ip_device.shape = ', ip_device.shape
 ip_cookie = ip[ip['device_or_cookie_id'] == 1]
 print 'ip_cookie.shape = ', ip_cookie.shape
 
-print 'remove from cookie rows for which draw_bridge_handle = -1'
-print test.shape
-test = test[test['drawbridge_handle.1'] != '-1']
-print test.shape
-test = test[test['drawbridge_handle.1'] != -1]
-print test.shape
 
 print 'merge cookie and id_all_ip'
 cookie_property = cookie.join(id_all_ip_cookie, on = {'cookie_id': 'device_or_cookie_id'})
