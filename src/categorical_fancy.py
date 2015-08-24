@@ -14,49 +14,66 @@ print cookie.shape
 
 print 'Read ip'
 ip = gl.SFrame('../data/id_all_ip.csv')
+print ip.shape
+
+print 'split ip into cookie and device'
+ip_cookie = ip[ip['device_or_cookie_indicator'] == 1]
+
+ip_device = ip[ip['device_or_cookie_indicator'] == 0]
 
 print 'Read test'
 test = gl.SFrame('../data/dev_test_basic.csv')
+print test.shape
 
 print 'read id_all_property'
-id_all_ip = gl.SFrame('../data/id_all_property.csv')
+id_all_property = gl.SFrame('../data/id_all_property.csv')
+print id_all_property.shape
+
+
+id_all_property_cookie = id_all_property[id_all_property['device_or_cookie_indicator'] == 1]
+print id_all_property_cookie.shape
+id_all_property_device = id_all_property[id_all_property['device_or_cookie_indicator'] == 0]
+print id_all_property_device.shape
 
 print 'read_category'
 category = gl.SFrame('../data/property_category_corrected.csv')
 print category.shape
 
-print 'merging id_all_ip and category'
-id_all_ip = id_all_ip.join(category, on='property_id')
+print 'merging id_all_ip_cookie and category'
+id_all_property_cookie = id_all_property_cookie.join(category, on='property_id')
+print id_all_property_cookie.shape
 
-print 'stucking category'
+print 'merging id_all_ip_device and category'
+id_all_property_device = id_all_property_device.join(category, on='property_id')
+print id_all_property_device.shape
 
-id_all_ip = id_all_ip.unstack('device_or_cookie_id', new_column_name='category_id')
+print 'unstucking cookie category'
+id_all_cookie = id_all_property_cookie.unstack('device_or_cookie_id', new_column_name='category_id')
+print id_all_cookie.shape
 
-print id_all_ip.head()
+print 'unstucking device category'
+id_all_device = id_all_property_device.unstack('device_or_cookie_id', new_column_name='category_id')
+print id_all_device.shape
 
-print 'split id_all_ip into device and cookie'
-id_all_ip_cookie = id_all_ip[id_all_ip['device_or_cookie_indicator'] == 1]
-print id_all_ip_cookie.shape
+print 'merging cookie and ip'
+ip_cookie = cookie.join(ip_cookie, on={'cookie_id': 'device_or_cookie_id'})
+print ip_cookie.shape
 
-id_all_ip_device = id_all_ip[id_all_ip['device_or_cookie_indicator'] == 0]
-print id_all_ip_device.shape
-
-print 'split ip into device and cookie'
-ip_device = ip[ip['device_or_cookie_indicator'] == 0]
-
-print 'ip_device.shape = ', ip_device.shape
-ip_cookie = ip[ip['device_or_cookie_indicator'] == 1]
-print 'ip_cookie.shape = ', ip_cookie.shape
-
+print 'merging cookie and ip'
+ip_device = test.join(ip_device, on={'device_id': 'device_or_cookie_id'})
+print ip_device.shape
 
 print 'merge cookie and device on ip'
 device_cookie = ip_device.join(ip_cookie, on='ip')
+print device_cookie.shape
 
-print 'merge device_cookie and id_all_ip_device'
-device_cookie = device_cookie.join(id_all_ip_device, on={'device_id': 'device_or_cookie_id'})
+print 'merge device_cookie and id_all_property_device'
+device_cookie = device_cookie.join(id_all_property_device, on={'device_id': 'device_or_cookie_id'})
+print device_cookie.shape
 
-print 'merge device_cookie and id_all_ip_cookie'
-device_cookie = device_cookie.join(id_all_ip_cookie, on={'cookie_id': 'device_or_cookie_id'})
+print 'merge device_cookie and id_all_property_cookie'
+device_cookie = device_cookie.join(id_all_property_cookie, on={'cookie_id': 'device_or_cookie_id'})
+print device_cookie.shape
 
 print device_cookie.head()
 device_cookie.save('../data/device_cookie_category')
