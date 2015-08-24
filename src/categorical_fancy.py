@@ -39,11 +39,11 @@ print 'ip_cookie.shape = ', ip_cookie.shape
 
 
 print 'merge cookie and id_all_ip'
-cookie_property = cookie.join(id_all_ip_cookie, on = {'cookie_id': 'device_or_cookie_id'})
+cookie_property = cookie.join(id_all_ip_cookie, on={'cookie_id': 'device_or_cookie_id'})
 print cookie_property.shape
 
 print 'merge device and id_all_ip'
-device_property = test.join(id_all_ip_device, on = {'device_id': 'device_or_cookie_id'})
+device_property = test.join(id_all_ip_device, on={'device_id': 'device_or_cookie_id'})
 print device_property.shape
 
 print 'merge cookie and ip'
@@ -51,12 +51,15 @@ cookie_property = cookie_property.join(ip_cookie, on={'cookie_id': 'device_or_co
 print cookie_property.shape
 
 print 'merge device and ip'
-device_property = device_property.join(ip_device, on={'cookie_id': 'device_or_cookie_id'})
+device_property = device_property.join(ip_device, on={'device_id': 'device_or_cookie_id'})
 print device_property.shape
 
 print 'merging on ip'
 cookie_test_property = device_property.join(cookie_property, on='ip')
 print cookie_test_property.shape
+
+print 'save to file cookie_test_propery'
+cookie_test_property.save('../data/cookie_test_property')
 
 print 'merge with category'
 cookie_test_property = cookie_test_property.join(category, on='property_id')
@@ -65,4 +68,4 @@ cookie_test_property = cookie_test_property.join(category, on={'property_id.1': 
 print cookie_test_property.shape
 
 print 'save cookie_test_property to file'
-cookie_test_property.save('../data/cookie_test_property')
+cookie_test_property.save('../data/cookie_test_category')
